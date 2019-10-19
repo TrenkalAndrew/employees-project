@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
+import {employees} from './employees';
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+    employees
+});
 
 export default rootReducer;
