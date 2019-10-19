@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './containers/app/App';
 import { Provider } from 'react-redux';
 import { store } from './store/configureStore';
-import { Spinner } from './components/spinner/Spinner';
+import Spinner from './components/spinner/Spinner';
 
 ReactDOM.render(
   <Provider store={store}>
