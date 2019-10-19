@@ -1,8 +1,13 @@
 import React from 'react';
+import 'materialize-css/sass/materialize.scss';
+import './app.scss';
+import Header from '../../components/header/Header';
 
-function App() {
+function App({ children }) {
   return (
     <div className="App">
+      <Header withLogo={true}/>
+      {children}
     </div>
   );
 }
