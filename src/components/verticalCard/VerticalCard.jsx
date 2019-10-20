@@ -2,6 +2,7 @@ import React from 'react';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import Image from '../image/Image';
+import PropTypes from 'prop-types';
 
 const VerticalCard = ({ id, src, firstName, lastName, position, children }) => {
   return (
@@ -17,6 +18,21 @@ const VerticalCard = ({ id, src, firstName, lastName, position, children }) => {
       </div>
     </div>
   );
+};
+
+VerticalCard.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  position: PropTypes.string,
+};
+
+VerticalCard.defaultProps = {
+  firstName: '',
+  lastName: '',
+  position: '',
 };
 
 export default VerticalCard;
