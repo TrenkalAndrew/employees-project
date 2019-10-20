@@ -1,5 +1,6 @@
 export const LOGO_TITLE = 'EMPLOYEE PROJECT';
 export const BASE_URL = 'http://6020j.mocklab.io/';
+export const EMPLOYEE_INFO_URL = '/employee';
 export const ERROR_MESSAGE =
   'Something was going wrong! Please, try again later...';
 

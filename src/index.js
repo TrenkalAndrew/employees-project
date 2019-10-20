@@ -18,7 +18,7 @@ ReactDOM.render(
             />
             <Route
                 path={'/employee/:id'}
-                component={lazy(() => import('./pages/employee/Employee'))}
+                component={lazy(() => import('./pages/employeeInfo/EmployeeInfo'))}
             />
         </Suspense>
       </App>
