@@ -1,6 +1,5 @@
 import React from 'react';
 import 'materialize-css/sass/materialize.scss';
-import './app.scss';
 import Header from '../../components/header/Header';
 
 function App({ children }) {

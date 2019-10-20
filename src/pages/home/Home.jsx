@@ -4,7 +4,11 @@ import Employees from '../../containers/employees/Employees';
 const Home = () => {
   return (
     <main className="container layout">
-      <div className="row"><Employees /></div>
+      <div className="row">
+        <div className="col s12">
+          <Employees />
+        </div>
+      </div>
     </main>
   );
 };
