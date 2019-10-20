@@ -1,14 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { getEmployees } from '../../actions/employees';
+import { getEmployees, getEmployeeById } from '../../actions/employees';
 import HorizontalCard from '../../components/horizontalCard/HorizontalCard';
 import {getNormalizedDate} from '../../Helpers/helper';
 
 class EmployeeInfo extends PureComponent {
-  state = {
-    employee: {},
-  };
-
   getEmployeeId() {
     const { location } = this.props;
     const { pathname } = location;
@@ -17,44 +13,31 @@ class EmployeeInfo extends PureComponent {
   }
 
   componentDidMount() {
-    const { employees, getEmployees } = this.props;
+    const { employees, getEmployeeById } = this.props;
     const id = this.getEmployeeId();
 
+    //Если пользователь перезагрузил страницу, то необходимо загрузить достаточные данные для карусели, после чего подгрузить данные для карточки
     if (employees.items.length) {
       const employee = employees.items.find(employee => {
         return employee.id === id;
       });
 
       if (!employee) {
-        getEmployees();
-      } else {
-        this.setState({
-          employee,
-        });
+        getEmployeeById(id, true);
       }
+
+      getEmployeeById(id, false);
     } else {
-      getEmployees();
-    }
-  }
-
-  componentDidUpdate() {
-    const { employee } = this.state;
-
-    if (Object.keys(employee).length === 0) {
-      // if (!employee) {
-      const { employees } = this.props;
-      const id = this.getEmployeeId();
-
-      this.setState({
-        employee: employees.items.find(employee => {
-          return employee.id === id;
-        }),
-      });
+      getEmployeeById(id, true);
     }
   }
 
   render() {
-    const { employee } = this.state;
+    const { employees } = this.props;
+    const id = this.getEmployeeId();
+
+    const employee = employees.items.find(item => item.id === id) || {};
+
     const {
       imageUrl = '',
       firstName = '',
@@ -108,6 +91,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getEmployees: () => dispatch(getEmployees),
+  getEmployeeById: (id, isFirstVisit) => dispatch(getEmployeeById(id, isFirstVisit))
 });
 
 export default connect(
