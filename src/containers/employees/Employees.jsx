@@ -19,14 +19,16 @@ class Employees extends PureComponent {
       <div className="container">
         <h1>Our team</h1>
         {items.map(({ id, firstName, lastName, position, imageUrl }) => (
-          <VerticalCard
-            key={id}
-            id={id}
-            src={imageUrl}
-            firstName={firstName}
-            lastName={lastName}
-            position={position}
-          />
+          <VerticalCard key={id} id={id} src={imageUrl}>
+            <div title={`${firstName} ${lastName}`}>
+              <b>
+                {firstName} {lastName}
+              </b>
+            </div>
+            <div title={position}>
+              Position: <b>{position}</b>
+            </div>
+          </VerticalCard>
         ))}
       </div>
     );
