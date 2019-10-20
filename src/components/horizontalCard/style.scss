@@ -1,0 +1,38 @@
+.card.horizontal {
+  .card-image {
+    border-right: 1px solid #e0e0e0;
+    min-width: 35%;
+    img {
+      width: 100%;
+    }
+  }
+  .card-content {
+    div {
+      font-size: 18px;
+      font-weight: 600;
+      span {
+        font-weight: normal;
+      }
+    }
+    div:not(:last-child) {
+      margin-bottom: 8px
+    }
+  }
+}
+
+@media screen and (max-width: 992px){
+  .card.horizontal {
+    flex-direction: column;
+    .card-image {
+      position: static;
+      width: 100%;
+      min-width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+
