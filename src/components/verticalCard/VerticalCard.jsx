@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const VerticalCard = ({ id, src, firstName, lastName, position }) => {
   return (
-    <div className="col s12 m4">
+    <div className="col s12 m6 xl4">
       <div className="card">
         <div className="card-image">
           <img src={src} />
