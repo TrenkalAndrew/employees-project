@@ -19,7 +19,9 @@ export const FETCH_EMPLOYEE_INFO_FAILURE = 'FETCH_EMPLOYEE_INFO_FAILURE';
 export const REQUIRED_RULE = 'required';
 export const MIN_LENGTH_RULE = 'minLength';
 export const MAX_LENGTH_RULE = 'maxLength';
+export const MATCH_REGEXP_RULE = 'match';
 
 export const REQUIRED_ERROR_MESSAGE = 'This field is required';
 export const MIN_LENGTH_ERROR_MESSAGE = 'This field should more than';
 export const MAX_LENGTH_ERROR_MESSAGE = 'This field should less than';
+export const MATCH_RULE_ERROR_MESSAGE = 'This field can only contain this symbols -';

@@ -18,7 +18,7 @@ class Textarea extends PureComponent {
   };
 
   render() {
-    const { label, size, onChange, name } = this.props;
+    const { label, size, name } = this.props;
     const { isFocused } = this.state;
 
     return (
@@ -28,7 +28,6 @@ class Textarea extends PureComponent {
           onFocus={this.onHandleFocus}
           className="materialize-textarea"
           onBlur={this.onHandleBlur}
-          onChange={onChange}
           name={name}
         />
         <label htmlFor={name} className={isFocused ? 'active' : ''}>

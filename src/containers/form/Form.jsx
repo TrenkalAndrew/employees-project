@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import TextInput from '../input/TextInput';
 import Textarea from '../textarea/Textarea';
 import {
+  MATCH_REGEXP_RULE, MATCH_RULE_ERROR_MESSAGE,
   MAX_LENGTH_ERROR_MESSAGE,
   MAX_LENGTH_RULE,
   MIN_LENGTH_ERROR_MESSAGE,
@@ -16,6 +17,11 @@ class Form extends PureComponent {
     label: '',
     text: '',
     phone: '',
+    isValidFields: {
+      label: false,
+      text: false,
+      phone: false
+    },
     errorMessages: {
       label: '',
       text: '',
@@ -30,6 +36,10 @@ class Form extends PureComponent {
       text: {
         required: true,
         maxLength: 128
+      },
+      phone: {
+        required: true,
+        match: /(?:\+|\d)[\d\-() ]{9,}\d/g
       }
     }
   };
@@ -56,6 +66,7 @@ class Form extends PureComponent {
 
             newState.errorMessages[field] = REQUIRED_ERROR_MESSAGE;
             newState[`${field}Valid`] = false;
+            newState.isValidFields[field] = false;
 
             return newState;
           }, () => this.checkValidForm());
@@ -69,7 +80,7 @@ class Form extends PureComponent {
             const newState = {...state};
 
             newState.errorMessages[field] = `${MIN_LENGTH_ERROR_MESSAGE} ${rules[rule]} symbols`;
-            newState[`${field}Valid`] = false;
+            newState.isValidFields[field] = false;
             return newState;
 
           }, () => this.checkValidForm());
@@ -83,7 +94,23 @@ class Form extends PureComponent {
             const newState = {...state};
 
             newState.errorMessages[field] = `${MAX_LENGTH_ERROR_MESSAGE} ${rules[rule]} symbols`;
-            newState[`${field}Valid`] = false;
+            newState.isValidFields[field] = false;
+
+            return newState;
+          }, () => this.checkValidForm());
+
+          return false;
+        }
+      }
+      else if (rule === MATCH_REGEXP_RULE) {
+        const pattern = rules[rule];
+
+        if (!pattern.test(value)) {
+          this.setState(state => {
+            const newState = {...state};
+
+            newState.errorMessages[field] = `${MATCH_RULE_ERROR_MESSAGE} 0-9, '-', '+', '(', ')'`;
+            newState.isValidFields[field] = false;
 
             return newState;
           }, () => this.checkValidForm());
@@ -95,7 +122,7 @@ class Form extends PureComponent {
 
     this.setState(state => {
       const newState = {...state};
-      newState[`${field}Valid`] = true;
+      newState.isValidFields[field] = true;
       newState.errorMessages[field] = '';
 
       return newState;
@@ -103,10 +130,10 @@ class Form extends PureComponent {
   };
 
   checkValidForm = () => {
-    const {errorMessages} = this.state;
+    const {isValidFields} = this.state;
 
-    for(let error in errorMessages) {
-      if (errorMessages[error]) {
+    for(let field in isValidFields) {
+      if (!isValidFields[field]) {
         this.setState(state => {
           return {...state, isValidForm: false}
         });
@@ -128,7 +155,7 @@ class Form extends PureComponent {
         <TextInput label='Label' size={12} onChange={this.onHandleChange} name="label" />
         <Textarea label='Text' size={12} onChange={this.onHandleChange} name="text" />
         <TextInput label='Phone' size={12} onChange={this.onHandleChange} name="phone" />
-        <input type="submit" disabled={!isValidForm}/>
+        <button className="btn waves-effect waves-light" disabled={!isValidForm}>Submit</button>
       </form>
     );
   }
