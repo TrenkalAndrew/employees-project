@@ -18,7 +18,7 @@ class Textarea extends PureComponent {
   };
 
   render() {
-    const { label, size, name } = this.props;
+    const { label, size, name, withError, errorText } = this.props;
     const { isFocused } = this.state;
 
     return (
@@ -33,6 +33,7 @@ class Textarea extends PureComponent {
         <label htmlFor={name} className={isFocused ? 'active' : ''}>
           {label}
         </label>
+        {withError && <span className={'form-error-message'}>{errorText}</span>}
       </div>
     );
   }

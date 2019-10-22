@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import TextInput from '../input/TextInput';
 import Textarea from '../textarea/Textarea';
 import {
@@ -11,7 +11,7 @@ import {
   REQUIRED_RULE,
 } from '../../const';
 
-class Form extends PureComponent {
+class Form extends Component {
   state = {
     isValidForm: false,
     label: '',
@@ -39,7 +39,7 @@ class Form extends PureComponent {
       },
       phone: {
         required: true,
-        match: /(?:\+|\d)[\d\-() ]{9,}\d/g
+        match: /^((\+7|7|8)+([0-9]){10})$/
       }
     }
   };
@@ -51,7 +51,7 @@ class Form extends PureComponent {
       const newState = {...state};
       newState[name] = value;
       return newState;
-    }, () => {this.checkValidField(name)})
+    }, () => this.checkValidField(name))
   };
 
   checkValidField = (field) => {
@@ -104,7 +104,6 @@ class Form extends PureComponent {
       }
       else if (rule === MATCH_REGEXP_RULE) {
         const pattern = rules[rule];
-
         if (!pattern.test(value)) {
           this.setState(state => {
             const newState = {...state};
@@ -148,13 +147,13 @@ class Form extends PureComponent {
   };
 
   render() {
-    const {isValidForm} = this.state;
+    const {isValidForm, errorMessages} = this.state;
 
     return (
       <form>
-        <TextInput label='Label' size={12} onChange={this.onHandleChange} name="label" />
-        <Textarea label='Text' size={12} onChange={this.onHandleChange} name="text" />
-        <TextInput label='Phone' size={12} onChange={this.onHandleChange} name="phone" />
+        <TextInput label='Label' size={12} onChange={this.onHandleChange} name="label" withError errorText={errorMessages['label']} />
+        <Textarea label='Text' size={12} onChange={this.onHandleChange} name="text" withError errorText={errorMessages['text']} />
+        <TextInput label='Phone' size={12} onChange={this.onHandleChange} name="phone" withError errorText={errorMessages['phone']} />
         <button className="btn waves-effect waves-light" disabled={!isValidForm}>Submit</button>
       </form>
     );

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import './style.scss';
 
 class TextInput extends PureComponent {
   state = {
@@ -18,7 +19,7 @@ class TextInput extends PureComponent {
   };
 
   render() {
-    const {type, label, size, name} = this.props;
+    const {type, label, size, name, withError, errorText} = this.props;
     const {isFocused} = this.state;
 
     return (
@@ -26,6 +27,7 @@ class TextInput extends PureComponent {
         <input type={type} id={name}
            onFocus={this.onHandleFocus} onBlur={this.onHandleBlur} name={name}  />
         <label htmlFor={name} className={isFocused ? 'active' : ''}>{label}</label>
+        {withError && <span className={'form-error-message'}>{errorText}</span>}
       </div>
     );
   }
