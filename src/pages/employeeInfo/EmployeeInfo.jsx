@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { getEmployees, getEmployeeById } from '../../actions/employees';
 import HorizontalCard from '../../components/horizontalCard/HorizontalCard';
-import {getNormalizedDate} from '../../Helpers/helper';
+import { getNormalizedDate } from '../../Helpers/helper';
+import Form from '../../containers/form/Form';
 
 class EmployeeInfo extends PureComponent {
   getEmployeeId() {
@@ -53,32 +54,39 @@ class EmployeeInfo extends PureComponent {
           <div className="col s12">slider</div>
         </div>
         {Object.keys(employee).length !== 0 && (
-          <div className="row">
-            <HorizontalCard
-              imageSrc={imageUrl}
-              alt={`${firstName} ${lastName} - ${position}`}
-            >
-              <h4>
-                {firstName} {lastName}
-              </h4>
-              <div>
-                Position: <span>{position}</span>
-              </div>
-              <div>
-                Address: <span>{address}</span>
-              </div>
-              <div className="divider"></div>
-              <div>Latest comments:</div>
-              {comments.map(({ title, date }) => {
-                return (
-                  <blockquote key={date}>
-                    <time dateTime={date}>{getNormalizedDate(date)}</time>
-                    <div><em>{title}</em></div>
-                  </blockquote>
-                );
-              })}
-            </HorizontalCard>
-          </div>
+          <>
+            <div className="row">
+              <HorizontalCard
+                imageSrc={imageUrl}
+                alt={`${firstName} ${lastName} - ${position}`}
+              >
+                <h4>
+                  {firstName} {lastName}
+                </h4>
+                <div>
+                  Position: <span>{position}</span>
+                </div>
+                <div>
+                  Address: <span>{address}</span>
+                </div>
+                <div className="divider"></div>
+                <div>Latest comments:</div>
+                {comments.map(({ title, date }) => {
+                  return (
+                    <blockquote key={date}>
+                      <time dateTime={date}>{getNormalizedDate(date)}</time>
+                      <div>
+                        <em>{title}</em>
+                      </div>
+                    </blockquote>
+                  );
+                })}
+              </HorizontalCard>
+            </div>
+            <div className="row">
+              <Form />
+            </div>
+          </>
         )}
       </main>
     );
@@ -91,7 +99,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getEmployees: () => dispatch(getEmployees),
-  getEmployeeById: (id, isFirstVisit) => dispatch(getEmployeeById(id, isFirstVisit))
+  getEmployeeById: (id, isFirstVisit) =>
+    dispatch(getEmployeeById(id, isFirstVisit)),
 });
 
 export default connect(

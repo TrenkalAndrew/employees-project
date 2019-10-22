@@ -13,3 +13,13 @@ export const FETCH_EMPLOYEES_FAILURE = 'FETCH_EMPLOYEES_FAILURE';
 export const FETCH_EMPLOYEE_INFO_START = 'FETCH_EMPLOYEE_INFO_START';
 export const FETCH_EMPLOYEE_INFO_SUCCESS = 'FETCH_EMPLOYEE_INFO_SUCCESS';
 export const FETCH_EMPLOYEE_INFO_FAILURE = 'FETCH_EMPLOYEE_INFO_FAILURE';
+
+//validation rules
+
+export const REQUIRED_RULE = 'required';
+export const MIN_LENGTH_RULE = 'minLength';
+export const MAX_LENGTH_RULE = 'maxLength';
+
+export const REQUIRED_ERROR_MESSAGE = 'This field is required';
+export const MIN_LENGTH_ERROR_MESSAGE = 'This field should more than';
+export const MAX_LENGTH_ERROR_MESSAGE = 'This field should less than';
