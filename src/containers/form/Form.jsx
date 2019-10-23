@@ -14,21 +14,21 @@ import {
 class Form extends Component {
   state = {
     isValidForm: false,
-    label: '',
+    title: '',
     text: '',
     phone: '',
     isValidFields: {
-      label: false,
+      title: false,
       text: false,
       phone: false
     },
     errorMessages: {
-      label: '',
+      title: '',
       text: '',
       phone: ''
     },
     rules: {
-      label: {
+      title: {
         required: true,
         minLength: 5,
         maxLength: 80
@@ -146,12 +146,21 @@ class Form extends Component {
     })
   };
 
+  onHandleSubmit = (e) => {
+    const {submitHandler, id} = this.props;
+    const {title, text, phone} = this.state;
+
+    e.preventDefault();
+
+    submitHandler(id, title, text, phone);
+  };
+
   render() {
     const {isValidForm, errorMessages} = this.state;
 
     return (
-      <form>
-        <TextInput label='Label' size={12} onChange={this.onHandleChange} name="label" withError errorText={errorMessages['label']} />
+      <form onSubmit={this.onHandleSubmit}>
+        <TextInput label='title' size={12} onChange={this.onHandleChange} name="title" withError errorText={errorMessages['title']} />
         <Textarea label='Text' size={12} onChange={this.onHandleChange} name="text" withError errorText={errorMessages['text']} />
         <TextInput label='Phone' size={12} onChange={this.onHandleChange} name="phone" withError errorText={errorMessages['phone']} />
         <button className="btn waves-effect waves-light" disabled={!isValidForm}>Submit</button>

@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { getEmployees, getEmployeeById } from '../../actions/employees';
+import {
+  getEmployees,
+  getEmployeeById,
+  createComment,
+} from '../../actions/employees';
 import HorizontalCard from '../../components/horizontalCard/HorizontalCard';
 import { getNormalizedDate } from '../../Helpers/helper';
 import Form from '../../containers/form/Form';
@@ -34,7 +38,7 @@ class EmployeeInfo extends PureComponent {
   }
 
   render() {
-    const { employees } = this.props;
+    const { employees, createComment } = this.props;
     const id = this.getEmployeeId();
 
     const employee = employees.items.find(item => item.id === id) || {};
@@ -71,20 +75,21 @@ class EmployeeInfo extends PureComponent {
                 </div>
                 <div className="divider"></div>
                 <div>Latest comments:</div>
-                {comments.map(({ title, date }) => {
+                {comments.map(({ title, text, date }) => {
                   return (
-                    <blockquote key={date}>
+                    <blockquote key={`${date}${Math.random()}`}>
                       <time dateTime={date}>{getNormalizedDate(date)}</time>
                       <div>
                         <em>{title}</em>
                       </div>
+                      <p>{text}</p>
                     </blockquote>
                   );
                 })}
               </HorizontalCard>
             </div>
             <div className="row">
-              <Form />
+              <Form submitHandler={createComment} id={id} />
             </div>
           </>
         )}
@@ -101,6 +106,8 @@ const mapDispatchToProps = dispatch => ({
   getEmployees: () => dispatch(getEmployees),
   getEmployeeById: (id, isFirstVisit) =>
     dispatch(getEmployeeById(id, isFirstVisit)),
+  createComment: (id, title, text, phone) =>
+    dispatch(createComment(id, title, text, phone)),
 });
 
 export default connect(
