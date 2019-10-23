@@ -7,6 +7,9 @@ import {
   FETCH_EMPLOYEE_INFO_START,
   FETCH_EMPLOYEE_INFO_SUCCESS,
   FETCH_EMPLOYEE_INFO_FAILURE,
+  FETCH_CREATE_COMMENT_START,
+  FETCH_CREATE_COMMENT_SUCCESS,
+  FETCH_CREATE_COMMENT_FAILURE
 } from '../const';
 
 export const getEmployees = dispatch => {
@@ -54,6 +57,24 @@ export const getEmployeeById = (id, isFirstVisit) => dispatch => {
   }
 };
 
+export const createComment = (userId, title, text, phone) => dispatch => {
+  dispatch(createCommentStart());
+
+  api
+
+    .createComment(userId, title, text, phone)
+    .then(({ data }) => {
+      const { success } = data;
+
+      if (success) {
+        dispatch(createCommentSuccess({id: userId, title, text, phone, date: new Date().getTime()}));
+      } else {
+        dispatch(createCommentFailure(data.message));
+      }
+    })
+    .catch(_ => dispatch(createCommentFailure(ERROR_MESSAGE)));
+};
+
 const fetchEmployeesStart = () => ({
   type: FETCH_EMPLOYEES_START,
 });
@@ -79,6 +100,20 @@ const fetchEmployeeInfoSuccess = employee => ({
 
 const fetchEmployeeInfoFailure = err => ({
   type: FETCH_EMPLOYEE_INFO_FAILURE,
+  payload: err,
+});
+
+const createCommentStart = () => ({
+  type: FETCH_CREATE_COMMENT_START,
+});
+
+const createCommentSuccess = comment => ({
+  type: FETCH_CREATE_COMMENT_SUCCESS,
+  payload: comment,
+});
+
+const createCommentFailure = err => ({
+  type: FETCH_CREATE_COMMENT_FAILURE,
   payload: err,
 });
 
