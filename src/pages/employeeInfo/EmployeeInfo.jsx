@@ -8,6 +8,9 @@ import {
 import HorizontalCard from '../../components/horizontalCard/HorizontalCard';
 import { getNormalizedDate } from '../../Helpers/helper';
 import Form from '../../containers/form/Form';
+import Slider from '../../containers/slider/Slider';
+import Slide from '../../components/slide/Slide';
+import Classnames from 'classnames';
 
 class EmployeeInfo extends PureComponent {
   getEmployeeId() {
@@ -37,6 +40,20 @@ class EmployeeInfo extends PureComponent {
     }
   }
 
+  renderFunctionForSlider = (activeIndex, items) => {
+    return (
+      <>
+        {items.map((item, index) => {
+          const classes = Classnames('slide', {
+            active: index === activeIndex,
+          });
+
+          return <Slide key={index} classes={classes} item={item} />;
+        })}
+      </>
+    );
+  };
+
   render() {
     const { employees, createComment } = this.props;
     const id = this.getEmployeeId();
@@ -52,11 +69,15 @@ class EmployeeInfo extends PureComponent {
       comments = [],
     } = employee;
 
+    const sortedComments = comments.sort((a, b) => b.date - a.date).slice(0, 5);
+
     return (
       <main className="container layout">
-        <div className="row">
-          <div className="col s12">slider</div>
-        </div>
+        <Slider
+          data={employees.items}
+          renderFunction={this.renderFunctionForSlider}
+          withNavButtons={true}
+        />
         {Object.keys(employee).length !== 0 && (
           <>
             <div className="row">
@@ -75,7 +96,7 @@ class EmployeeInfo extends PureComponent {
                 </div>
                 <div className="divider"></div>
                 <div>Latest comments:</div>
-                {comments.map(({ title, text, date }) => {
+                {sortedComments.map(({ title, text, date }) => {
                   return (
                     <blockquote key={`${date}${Math.random()}`}>
                       <time dateTime={date}>{getNormalizedDate(date)}</time>
