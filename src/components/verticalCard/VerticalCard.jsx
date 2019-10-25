@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import Image from '../image/Image';
 import PropTypes from 'prop-types';
 
-const VerticalCard = ({ id, imageSrc, alt, firstName, lastName, position, url, children }) => {
+const VerticalCard = ({ id, imageSrc, alt, firstName, lastName, position, url, children, classes }) => {
   return (
-    <div className="col s12 m6 xl4">
+    <div className={classes}>
       <div className="card">
         <div className="card-image">
           <Image src={imageSrc} alt={alt} />

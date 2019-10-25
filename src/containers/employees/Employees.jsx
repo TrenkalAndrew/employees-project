@@ -20,7 +20,7 @@ class Employees extends PureComponent {
       <div className="container">
         <h1>Our team</h1>
         {items.map(({ id, firstName, lastName, position, imageUrl }) => (
-          <VerticalCard key={id} id={id} imageSrc={imageUrl} alt={`${firstName} ${lastName} - ${position}`} url={`${EMPLOYEE_INFO_URL}/${id}`}>
+          <VerticalCard classes='col s12 m6 xl4' key={id} id={id} imageSrc={imageUrl} alt={`${firstName} ${lastName} - ${position}`} url={`${EMPLOYEE_INFO_URL}/${id}`}>
             <div title={`${firstName} ${lastName}`}>
               <b>
                 {firstName} {lastName}

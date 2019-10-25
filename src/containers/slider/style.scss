@@ -1,0 +1,64 @@
+.slider-main {
+  overflow: hidden;
+  position: relative;
+  margin-top: 15px;
+  //border: 1px solid black;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  .slider-nav-btn {
+    position: absolute;
+    width: 40px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    top: 0;
+    opacity: 0.5;
+    font-size: 45px;
+    z-index: 10;
+    cursor: pointer;
+    transition: opacity .25s ease;
+    user-select: none;
+    outline: none;
+    border: none;
+    color: #555;
+    &:hover {
+      opacity: .7;
+    }
+    &-left {
+      left: 0;
+    }
+    &-right {
+      right: 0;
+    }
+  }
+  .cards-slider {
+    position: relative;
+    min-height: 305px;
+    max-width: 271px;
+    margin-left: auto;
+    margin-right: auto;
+    height: max-content;
+    .cards-slider-wrapper {
+      display: flex;
+      position: absolute;
+      transition: transform .4s ease;
+      .slide {
+        transform: scale(0.8);
+        opacity: 0.6;
+        flex: 1;
+        transition: transform 0.25s 0.4s ease, opacity 0.25s ease;
+        z-index: 10;
+        img {
+          height: 100%;
+        }
+      }
+      .slide.active {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
+
+}
