@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.scss"],"names":[],"mappings":"AAAA,cAEI,iBAAkB,CAFtB,yCAGM,kBAAmB,CACnB,sBAAuB,CACvB,eAAgB","file":"1.42f79bf0.chunk.css","sourcesContent":[".card:not(.horizontal) {\r\n  .card-content {\r\n    div {\r\n      white-space: nowrap;\r\n      text-overflow: ellipsis;\r\n      overflow: hidden;\r\n    }\r\n  }\r\n}\r\n\r\n"]}
