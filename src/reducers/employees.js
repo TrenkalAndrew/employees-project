@@ -31,7 +31,7 @@ export const employees = (state = initialState, { type, payload }) => {
         ({ id }) => id === Number(payload.id)
       );
       const newItems = [...state.items];
-      newItems[employeeIndex] = {...state.items[employeeIndex], ...payload};
+      newItems[employeeIndex] = payload;
 
       return { loading: false, error: false, items: newItems };
     case FETCH_EMPLOYEE_INFO_FAILURE:

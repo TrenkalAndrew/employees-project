@@ -130,4 +130,4 @@ const getEmployeeByIdWithApi = (id, dispatch) => {
       }
     })
     .catch(fetchEmployeeInfoFailure(ERROR_MESSAGE));
-}
+};
