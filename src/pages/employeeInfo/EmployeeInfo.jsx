@@ -61,7 +61,7 @@ const EmployeeInfo = ({
 
   return (
     <main className="container layout">
-      <Slider itemsOnScreen={3} navButtons={true} dots={true} autoPlay={5000}>
+      <Slider itemsOnScreen={3} navButtons={true} dots={true} autoPlay={4000}>
         {employees.items.map(
           ({ id, imageUrl, firstName, lastName, position }) => (
             <Link key={id} to={`${EMPLOYEE_INFO_URL}/${id}`}>

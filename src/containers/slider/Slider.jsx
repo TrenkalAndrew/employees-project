@@ -42,12 +42,12 @@ export const Slider = ({
   useEffect(() => {
     if (autoPlay) {
       const interval = setInterval(() => {
-        setActiveIndex(activeIndex + 1)
+        setActiveIndex(activeIndex + 1 < children.length ? activeIndex + 1: 0)
       }, autoPlay);
 
       return () => clearInterval(interval);
     }
-  }, [activeIndex]);
+  }, [activeIndex, children.length]);
 
   return (
     <div className="row">
