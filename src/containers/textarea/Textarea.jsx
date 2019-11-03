@@ -1,49 +1,43 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-class Textarea extends PureComponent {
-  state = {
-    isFocused: false,
+const Textarea = ({ onChange, label, size, name, withError, errorText }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const onHandleFocus = () => {
+    setIsFocused(true);
   };
 
-  onHandleFocus = () => {
-    this.setState({ isFocused: true });
-  };
-
-  onHandleBlur = (e) => {
-    const {onChange} = this.props;
-    if (!e.target.value) this.setState({isFocused: false});
+  const onHandleBlur = e => {
+    if (!e.target.value) setIsFocused(false);
 
     onChange(e);
   };
 
-  render() {
-    const { label, size, name, withError, errorText } = this.props;
-    const { isFocused } = this.state;
-
-    return (
-      <div className={`input-field col s${size}`}>
-        <textarea
-          id={name}
-          onFocus={this.onHandleFocus}
-          className="materialize-textarea"
-          onBlur={this.onHandleBlur}
-          name={name}
-        />
-        <label htmlFor={name} className={isFocused ? 'active' : ''}>
-          {label}
-        </label>
-        {withError && <span className={'form-error-message'}>{errorText}</span>}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={`input-field col s${size}`}>
+      <textarea
+        id={name}
+        onFocus={onHandleFocus}
+        className="materialize-textarea"
+        onBlur={onHandleBlur}
+        name={name}
+      />
+      <label htmlFor={name} className={isFocused ? 'active' : ''}>
+        {label}
+      </label>
+      {withError && <span className={'form-error-message'}>{errorText}</span>}
+    </div>
+  );
+};
 
 Textarea.propTypes = {
   label: PropTypes.string.isRequired,
   size: PropTypes.number,
   onChange: PropTypes.func,
   name: PropTypes.string,
+  withError: PropTypes.bool,
+  errorText: PropTypes.string
 };
 
 Textarea.defaultProps = {
@@ -51,6 +45,7 @@ Textarea.defaultProps = {
   value: '',
   onChange: () => {},
   name: '',
+  withError: false
 };
 
 export default Textarea;
