@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   getEmployees,
@@ -9,8 +9,9 @@ import HorizontalCard from '../../components/horizontalCard/HorizontalCard';
 import { getNormalizedDate } from '../../Helpers/helper';
 import Form from '../../containers/form/Form';
 import Slider from '../../containers/slider/Slider';
-import Slide from '../../components/slide/Slide';
-import Classnames from 'classnames';
+import Img from '../../components/image/Image';
+import { Link } from 'react-router-dom';
+import { EMPLOYEE_INFO_URL } from '../../const';
 
 const EmployeeInfo = ({
   location,
@@ -35,8 +36,7 @@ const EmployeeInfo = ({
 
       if (!employee) {
         getEmployeeById(id, true);
-      }
-      else {
+      } else {
         if (!employee.comments) {
           getEmployeeById(id, false);
         }
@@ -45,20 +45,6 @@ const EmployeeInfo = ({
       getEmployeeById(id, true);
     }
   }, [id]);
-
-  const renderFunctionForSlider = (activeIndex, items) => {
-    return (
-      <>
-        {items.map((item, index) => {
-          const classes = Classnames('slide', {
-            active: index === activeIndex,
-          });
-
-          return <Slide key={index} classes={classes} item={item} />;
-        })}
-      </>
-    );
-  };
 
   const employee = employees.items.find(item => item.id === id) || {};
 
@@ -75,11 +61,18 @@ const EmployeeInfo = ({
 
   return (
     <main className="container layout">
-      <Slider
-        data={employees.items}
-        renderFunction={renderFunctionForSlider}
-        withNavButtons={true}
-      />
+      <Slider itemsOnScreen={3} navButtons={true} dots={true} autoPlay={5000}>
+        {employees.items.map(
+          ({ id, imageUrl, firstName, lastName, position }) => (
+            <Link key={id} to={`${EMPLOYEE_INFO_URL}/${id}`}>
+              <Img
+                src={imageUrl}
+                alt={`${firstName} ${lastName} - ${position}`}
+              />
+            </Link>
+          )
+        )}
+      </Slider>
       {Object.keys(employee).length !== 0 && (
         <>
           <div className="row">
