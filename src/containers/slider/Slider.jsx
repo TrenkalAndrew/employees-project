@@ -8,6 +8,7 @@ export const Slider = ({
   navButtons,
   dots,
   clickHandler,
+  autoPlay,
   children,
 }) => {
   const [activeIndex, setActiveIndex] = useState(2);
@@ -38,16 +39,36 @@ export const Slider = ({
     getSliderWidth();
   }, []);
 
+  useEffect(() => {
+    if (autoPlay) {
+      const interval = setInterval(() => {
+        setActiveIndex(activeIndex + 1)
+      }, autoPlay);
+
+      return () => clearInterval(interval);
+    }
+  }, [activeIndex]);
+
   return (
     <div className="row">
       <div className="col s12">
         <div className="slider">
-          <SliderNavButton position="left" clickHandler={() => navBtnHandleClick(-1)} />
+          <SliderNavButton
+            position="left"
+            clickHandler={() => navBtnHandleClick(-1)}
+          />
           <div
             className="slider-wrap"
-            style={itemsOnScreen % 2 ? {
-              left: `${- (sliderWidth / itemsOnScreen * (activeIndex - ((itemsOnScreen - 1) / 2)))}px`
-            }: {}}
+            style={
+              itemsOnScreen % 2
+                ? {
+                    left: `${-(
+                      (sliderWidth / itemsOnScreen) *
+                      (activeIndex - (itemsOnScreen - 1) / 2)
+                    )}px`,
+                  }
+                : {}
+            }
           >
             {children.map((child, index) => {
               const classes = Classnames('slider-item', {
@@ -65,8 +86,22 @@ export const Slider = ({
               );
             })}
           </div>
-          <SliderNavButton position="right" clickHandler={() => navBtnHandleClick(1)} />
+          <SliderNavButton
+            position="right"
+            clickHandler={() => navBtnHandleClick(1)}
+          />
         </div>
+        {dots && <div className="dots">
+          {children.map((item, index) => {
+            const classes = Classnames('dot', {
+              active: index === activeIndex || !(itemsOnScreen % 2),
+            });
+
+            return (
+              <div key={index} className={classes} onClick={() => setActiveIndex(index)}/>
+            )
+          })}
+        </div>}
       </div>
     </div>
   );

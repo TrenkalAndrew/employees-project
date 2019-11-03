@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   getEmployees,
@@ -9,7 +9,6 @@ import HorizontalCard from '../../components/horizontalCard/HorizontalCard';
 import { getNormalizedDate } from '../../Helpers/helper';
 import Form from '../../containers/form/Form';
 import Slider from '../../containers/slider/Slider';
-import Classnames from 'classnames';
 import Img from '../../components/image/Image';
 import { Link } from 'react-router-dom';
 import { EMPLOYEE_INFO_URL } from '../../const';
@@ -37,8 +36,7 @@ const EmployeeInfo = ({
 
       if (!employee) {
         getEmployeeById(id, true);
-      }
-      else {
+      } else {
         if (!employee.comments) {
           getEmployeeById(id, false);
         }
@@ -63,12 +61,17 @@ const EmployeeInfo = ({
 
   return (
     <main className="container layout">
-      <Slider itemsOnScreen={3} navButtons={true}>
-        {employees.items.map(({id, imageUrl, firstName, lastName, position}) => (
-          <Link key={id} to={`${EMPLOYEE_INFO_URL}/${id}`}>
-            <Img src={imageUrl} alt={`${firstName} ${lastName} - ${position}`}/>
-          </Link>
-        ))}
+      <Slider itemsOnScreen={3} navButtons={true} dots={true} autoPlay={5000}>
+        {employees.items.map(
+          ({ id, imageUrl, firstName, lastName, position }) => (
+            <Link key={id} to={`${EMPLOYEE_INFO_URL}/${id}`}>
+              <Img
+                src={imageUrl}
+                alt={`${firstName} ${lastName} - ${position}`}
+              />
+            </Link>
+          )
+        )}
       </Slider>
       {Object.keys(employee).length !== 0 && (
         <>
