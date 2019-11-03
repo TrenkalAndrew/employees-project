@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   getEmployees,
@@ -12,18 +12,21 @@ import Slider from '../../containers/slider/Slider';
 import Slide from '../../components/slide/Slide';
 import Classnames from 'classnames';
 
-class EmployeeInfo extends PureComponent {
-  getEmployeeId() {
-    const { location } = this.props;
+const EmployeeInfo = ({
+  location,
+  employees,
+  getEmployeeById,
+  createComment,
+}) => {
+  const getEmployeeId = () => {
     const { pathname } = location;
 
     return Number(pathname.split('/')[2]);
-  }
+  };
 
-  componentDidMount() {
-    const { employees, getEmployeeById } = this.props;
-    const id = this.getEmployeeId();
+  const id = getEmployeeId();
 
+  useEffect(() => {
     //Если пользователь перезагрузил страницу, то необходимо загрузить достаточные данные для карусели, после чего подгрузить данные для карточки
     if (employees.items.length) {
       const employee = employees.items.find(employee => {
@@ -33,14 +36,17 @@ class EmployeeInfo extends PureComponent {
       if (!employee) {
         getEmployeeById(id, true);
       }
-
-      getEmployeeById(id, false);
+      else {
+        if (!employee.comments) {
+          getEmployeeById(id, false);
+        }
+      }
     } else {
       getEmployeeById(id, true);
     }
-  }
+  }, [id]);
 
-  renderFunctionForSlider = (activeIndex, items) => {
+  const renderFunctionForSlider = (activeIndex, items) => {
     return (
       <>
         {items.map((item, index) => {
@@ -54,70 +60,65 @@ class EmployeeInfo extends PureComponent {
     );
   };
 
-  render() {
-    const { employees, createComment } = this.props;
-    const id = this.getEmployeeId();
+  const employee = employees.items.find(item => item.id === id) || {};
 
-    const employee = employees.items.find(item => item.id === id) || {};
+  const {
+    imageUrl = '',
+    firstName = '',
+    lastName = '',
+    position = '',
+    address = '',
+    comments = [],
+  } = employee;
 
-    const {
-      imageUrl = '',
-      firstName = '',
-      lastName = '',
-      position = '',
-      address = '',
-      comments = [],
-    } = employee;
+  const sortedComments = comments.sort((a, b) => b.date - a.date).slice(0, 5);
 
-    const sortedComments = comments.sort((a, b) => b.date - a.date).slice(0, 5);
-
-    return (
-      <main className="container layout">
-        <Slider
-          data={employees.items}
-          renderFunction={this.renderFunctionForSlider}
-          withNavButtons={true}
-        />
-        {Object.keys(employee).length !== 0 && (
-          <>
-            <div className="row">
-              <HorizontalCard
-                imageSrc={imageUrl}
-                alt={`${firstName} ${lastName} - ${position}`}
-              >
-                <h4>
-                  {firstName} {lastName}
-                </h4>
-                <div>
-                  Position: <span>{position}</span>
-                </div>
-                <div>
-                  Address: <span>{address}</span>
-                </div>
-                <div className="divider"></div>
-                <div>Latest comments:</div>
-                {sortedComments.map(({ title, text, date }) => {
-                  return (
-                    <blockquote key={`${date}${Math.random()}`}>
-                      <time dateTime={date}>{getNormalizedDate(date)}</time>
-                      <div>
-                        <em>{title}</em>
-                      </div>
-                      <p>{text}</p>
-                    </blockquote>
-                  );
-                })}
-              </HorizontalCard>
-            </div>
-            <div className="row">
-              <Form submitHandler={createComment} id={id} />
-            </div>
-          </>
-        )}
-      </main>
-    );
-  }
-}
+  return (
+    <main className="container layout">
+      <Slider
+        data={employees.items}
+        renderFunction={renderFunctionForSlider}
+        withNavButtons={true}
+      />
+      {Object.keys(employee).length !== 0 && (
+        <>
+          <div className="row">
+            <HorizontalCard
+              imageSrc={imageUrl}
+              alt={`${firstName} ${lastName} - ${position}`}
+            >
+              <h4>
+                {firstName} {lastName}
+              </h4>
+              <div>
+                Position: <span>{position}</span>
+              </div>
+              <div>
+                Address: <span>{address}</span>
+              </div>
+              <div className="divider"></div>
+              <div>Latest comments:</div>
+              {sortedComments.map(({ title, text, date }) => {
+                return (
+                  <blockquote key={`${date}${Math.random()}`}>
+                    <time dateTime={date}>{getNormalizedDate(date)}</time>
+                    <div>
+                      <em>{title}</em>
+                    </div>
+                    <p>{text}</p>
+                  </blockquote>
+                );
+              })}
+            </HorizontalCard>
+          </div>
+          <div className="row">
+            <Form submitHandler={createComment} id={id} />
+          </div>
+        </>
+      )}
+    </main>
+  );
+};
 
 const mapStateToProps = state => ({
   employees: state.employees,
