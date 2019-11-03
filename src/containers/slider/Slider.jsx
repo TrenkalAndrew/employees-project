@@ -1,67 +1,54 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 import PropTypes from 'prop-types';
 import SliderNavButton from '../../components/sliderNavButton/SliderNavButton';
 
-class Slider extends PureComponent {
-  state = {
-    activeIndex: 5,
-  };
+const Slider = ({ data, renderFunction, withNavButtons }) => {
+  const [activeIndex, setActiveIndex] = useState(5);
 
-  navBtnHandleClick = step => {
-    const { data } = this.props;
-    const { activeIndex } = this.state;
+  const navBtnHandleClick = step => {
     let newActiveIndex = activeIndex + step;
 
     if (newActiveIndex === -1) {
       newActiveIndex = data.length - 1;
-    }
-    else if (newActiveIndex === data.length) {
-      newActiveIndex = 0
+    } else if (newActiveIndex === data.length) {
+      newActiveIndex = 0;
     }
 
-    this.setState({
-      activeIndex: newActiveIndex
-    });
+    setActiveIndex(newActiveIndex);
   };
 
-  render() {
-    const { data, renderFunction, withNavButtons } = this.props;
-    const { activeIndex } = this.state;
-
-    return (
-      <div className="row">
-        <div className="col s12">
-          <div className="slider-main">
-            {withNavButtons && (
-              <SliderNavButton
-                position="left"
-                clickFunction={() => this.navBtnHandleClick(-1)}
-              />
-            )}
-            <div className="cards-slider">
-              <div
-                className="cards-slider-wrapper"
-                style={{
-                  transform: `translateX(-${activeIndex *
-                    (100 / data.length)}%)`,
-                }}
-              >
-                {renderFunction(activeIndex, data)}
-              </div>
+  return (
+    <div className="row">
+      <div className="col s12">
+        <div className="slider-main">
+          {withNavButtons && (
+            <SliderNavButton
+              position="left"
+              clickFunction={() => navBtnHandleClick(-1)}
+            />
+          )}
+          <div className="cards-slider">
+            <div
+              className="cards-slider-wrapper"
+              style={{
+                transform: `translateX(-${activeIndex * (100 / data.length)}%)`,
+              }}
+            >
+              {renderFunction(activeIndex, data)}
             </div>
-            {withNavButtons && (
-              <SliderNavButton
-                position="right"
-                clickFunction={() => this.navBtnHandleClick(1)}
-              />
-            )}
           </div>
+          {withNavButtons && (
+            <SliderNavButton
+              position="right"
+              clickFunction={() => navBtnHandleClick(1)}
+            />
+          )}
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Slider.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),

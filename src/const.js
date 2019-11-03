@@ -1,5 +1,5 @@
 export const LOGO_TITLE = 'EMPLOYEE PROJECT';
-export const BASE_URL = 'http://6020j.mocklab.io/';
+export const BASE_URL = 'http://vmye7.mocklab.io';
 export const ALL_EMPLOYEES_URL = '/employees';
 export const EMPLOYEE_INFO_URL = '/employee';
 export const EMPLOYEE_CREATE_COMMENT_URL = '/create-comment';

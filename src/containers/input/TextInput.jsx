@@ -1,51 +1,46 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-class TextInput extends PureComponent {
-  state = {
-    isFocused: false,
+const TextInput = ({onChange, type, label, size, name, withError, errorText}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const onHandleFocus = () => {
+    setIsFocused(true);
   };
 
-  onHandleFocus = () => {
-    this.setState({isFocused: true});
-  };
-
-  onHandleBlur = (e) => {
-    const {onChange} = this.props;
-    if (!e.target.value) this.setState({isFocused: false});
+  const onHandleBlur = (e) => {
+    if (!e.target.value) setIsFocused(false);
 
     onChange(e);
   };
 
-  render() {
-    const {type, label, size, name, withError, errorText} = this.props;
-    const {isFocused} = this.state;
-
-    return (
-      <div className={`input-field col s${size}`}>
-        <input type={type} id={name}
-           onFocus={this.onHandleFocus} onBlur={this.onHandleBlur} name={name}  />
-        <label htmlFor={name} className={isFocused ? 'active' : ''}>{label}</label>
-        {withError && <span className={'form-error-message'}>{errorText}</span>}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={`input-field col s${size}`}>
+      <input type={type} id={name}
+         onFocus={onHandleFocus} onBlur={onHandleBlur} name={name}  />
+      <label htmlFor={name} className={isFocused ? 'active' : ''}>{label}</label>
+      {withError && <span className={'form-error-message'}>{errorText}</span>}
+    </div>
+  );
+};
 
 TextInput.propTypes = {
   type: PropTypes.oneOf(['text', 'password']),
   label: PropTypes.string.isRequired,
   size: PropTypes.number,
   onChange: PropTypes.func,
-  name: PropTypes.string
+  name: PropTypes.string,
+  withError: PropTypes.bool,
+  errorText: PropTypes.string
 };
 
 TextInput.defaultProps = {
   type: 'text',
   size: 6,
   onChange: () => {},
-  name: ''
+  name: '',
+  withError: false
 };
 
 export default TextInput;
