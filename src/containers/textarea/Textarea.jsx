@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Textarea = ({ onChange, label, size, name, withError, errorText }) => {
+const Textarea = React.forwardRef(({ onChange, label, size, name, withError, errorText }, ref) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const onHandleFocus = () => {
@@ -17,6 +17,7 @@ const Textarea = ({ onChange, label, size, name, withError, errorText }) => {
   return (
     <div className={`input-field col s${size}`}>
       <textarea
+        ref={ref}
         id={name}
         onFocus={onHandleFocus}
         className="materialize-textarea"
@@ -29,7 +30,7 @@ const Textarea = ({ onChange, label, size, name, withError, errorText }) => {
       {withError && <span className={'form-error-message'}>{errorText}</span>}
     </div>
   );
-};
+});
 
 Textarea.propTypes = {
   label: PropTypes.string.isRequired,

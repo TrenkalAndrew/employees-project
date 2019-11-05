@@ -44,6 +44,11 @@ class Form extends Component {
     }
   };
 
+
+  titleRef = React.createRef();
+  textRef = React.createRef();
+  phoneRef = React.createRef();
+
   onHandleChange = ({target}) => {
     const {name, value} = target;
 
@@ -153,6 +158,26 @@ class Form extends Component {
     e.preventDefault();
 
     submitHandler(id, title, text, phone);
+    
+    this.clearForm();
+  };
+
+  clearForm = () => {
+    this.setState({
+      title: '',
+      text: '',
+      phone: '',
+      isValidFields: {
+        title: false,
+        text: false,
+        phone: false,
+      },
+      isValidForm: false
+    });
+
+    this.titleRef.current.value = '';
+    this.textRef.current.value = '';
+    this.phoneRef.current.value = '';
   };
 
   render() {
@@ -160,9 +185,9 @@ class Form extends Component {
 
     return (
       <form onSubmit={this.onHandleSubmit}>
-        <TextInput label='title' size={12} onChange={this.onHandleChange} name="title" withError errorText={errorMessages['title']} />
-        <Textarea label='Text' size={12} onChange={this.onHandleChange} name="text" withError errorText={errorMessages['text']} />
-        <TextInput label='Phone' size={12} onChange={this.onHandleChange} name="phone" withError errorText={errorMessages['phone']} />
+        <TextInput label='title' size={12} ref={this.titleRef} onChange={this.onHandleChange} name="title" withError errorText={errorMessages['title']} />
+        <Textarea label='Text' size={12} ref={this.textRef} onChange={this.onHandleChange} name="text" withError errorText={errorMessages['text']} />
+        <TextInput label='Phone' size={12} ref={this.phoneRef} onChange={this.onHandleChange} name="phone" withError errorText={errorMessages['phone']} />
         <button className="btn waves-effect waves-light" disabled={!isValidForm}>Submit</button>
       </form>
     );

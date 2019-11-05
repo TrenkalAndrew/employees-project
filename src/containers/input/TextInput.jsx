@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-const TextInput = ({onChange, type, label, size, name, withError, errorText}) => {
+const TextInput = React.forwardRef(({onChange, type, label, size, name, withError, errorText}, ref) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const onHandleFocus = () => {
@@ -17,13 +17,13 @@ const TextInput = ({onChange, type, label, size, name, withError, errorText}) =>
 
   return (
     <div className={`input-field col s${size}`}>
-      <input type={type} id={name}
+      <input type={type} id={name} ref={ref}
          onFocus={onHandleFocus} onBlur={onHandleBlur} name={name}  />
       <label htmlFor={name} className={isFocused ? 'active' : ''}>{label}</label>
       {withError && <span className={'form-error-message'}>{errorText}</span>}
     </div>
   );
-};
+});
 
 TextInput.propTypes = {
   type: PropTypes.oneOf(['text', 'password']),
