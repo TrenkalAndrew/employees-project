@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import App from './containers/app/App';
+import App from './components/app/App';
 import { Provider } from 'react-redux';
 import { store } from './store/configureStore';
 import Spinner from './components/spinner/Spinner';
