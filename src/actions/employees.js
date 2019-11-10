@@ -12,10 +12,11 @@ import {
   FETCH_CREATE_COMMENT_FAILURE
 } from '../const';
 
-export const getEmployees = dispatch => {
+export const getEmployees = _ => dispatch => {
   dispatch(fetchEmployeesStart());
 
-  api
+
+  return api
     .getEmployees()
     .then(({ data }) => {
       const { success } = data;
@@ -34,7 +35,7 @@ export const getEmployeeById = (id, isFirstVisit) => dispatch => {
   if (isFirstVisit) {
     dispatch(fetchEmployeesStart());
 
-    api
+    return api
       .getEmployees()
       .then(async ({ data }) => {
         const { success } = data;
@@ -53,15 +54,14 @@ export const getEmployeeById = (id, isFirstVisit) => dispatch => {
   } else {
     dispatch(fetchEmployeeInfoStart());
 
-    getEmployeeByIdWithApi(id, dispatch);
+    return getEmployeeByIdWithApi(id, dispatch);
   }
 };
 
 export const createComment = (userId, title, text, phone) => dispatch => {
   dispatch(createCommentStart());
 
-  api
-
+  return api
     .createComment(userId, title, text, phone)
     .then(({ data }) => {
       const { success } = data;
@@ -75,50 +75,50 @@ export const createComment = (userId, title, text, phone) => dispatch => {
     .catch(_ => dispatch(createCommentFailure(ERROR_MESSAGE)));
 };
 
-const fetchEmployeesStart = () => ({
+export const fetchEmployeesStart = () => ({
   type: FETCH_EMPLOYEES_START,
 });
 
-const fetchEmployeesSuccess = employees => ({
+export const fetchEmployeesSuccess = employees => ({
   type: FETCH_EMPLOYEES_SUCCESS,
   payload: employees,
 });
 
-const fetchEmployeesFailure = err => ({
+export const fetchEmployeesFailure = err => ({
   type: FETCH_EMPLOYEES_FAILURE,
   payload: err,
 });
 
-const fetchEmployeeInfoStart = () => ({
+export const fetchEmployeeInfoStart = () => ({
   type: FETCH_EMPLOYEE_INFO_START,
 });
 
-const fetchEmployeeInfoSuccess = employee => ({
+export const fetchEmployeeInfoSuccess = employee => ({
   type: FETCH_EMPLOYEE_INFO_SUCCESS,
   payload: employee,
 });
 
-const fetchEmployeeInfoFailure = err => ({
+export const fetchEmployeeInfoFailure = err => ({
   type: FETCH_EMPLOYEE_INFO_FAILURE,
   payload: err,
 });
 
-const createCommentStart = () => ({
+export const createCommentStart = () => ({
   type: FETCH_CREATE_COMMENT_START,
 });
 
-const createCommentSuccess = comment => ({
+export const createCommentSuccess = comment => ({
   type: FETCH_CREATE_COMMENT_SUCCESS,
   payload: comment,
 });
 
-const createCommentFailure = err => ({
+export const createCommentFailure = err => ({
   type: FETCH_CREATE_COMMENT_FAILURE,
   payload: err,
 });
 
-const getEmployeeByIdWithApi = (id, dispatch) => {
-  api
+export const getEmployeeByIdWithApi = (id, dispatch) => {
+  return api
     .getEmployeeById(id)
     .then(({ data }) => {
       const { success } = data;
