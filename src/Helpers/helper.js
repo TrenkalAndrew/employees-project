@@ -12,6 +12,6 @@ export const getNormalizedDate = (ms) => {
   return `${getNormalizePartOfDate(day)}.${getNormalizePartOfDate(month)}.${year} ${getNormalizePartOfDate(hours)}:${getNormalizePartOfDate(minutes)}:${getNormalizePartOfDate(seconds)}`
 };
 
-const getNormalizePartOfDate = (digit) => {
+export const getNormalizePartOfDate = (digit) => {
   return digit < 10 ? '0' + digit : digit
 };

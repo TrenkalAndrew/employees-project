@@ -7,8 +7,8 @@ import {
 } from '../../actions/employees';
 import HorizontalCard from '../../components/horizontalCard/HorizontalCard';
 import { getNormalizedDate } from '../../Helpers/helper';
-import Form from '../../containers/form/Form';
-import Slider from '../../containers/slider/Slider';
+import Form from '../../components/form/Form';
+import Slider from '../../components/slider/Slider';
 import Img from '../../components/image/Image';
 import { Link } from 'react-router-dom';
 import { EMPLOYEE_INFO_URL } from '../../const';
@@ -118,7 +118,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getEmployees: () => dispatch(getEmployees),
+  getEmployees: () => dispatch(getEmployees()),
   getEmployeeById: (id, isFirstVisit) =>
     dispatch(getEmployeeById(id, isFirstVisit)),
   createComment: (id, title, text, phone) =>

@@ -8,7 +8,7 @@ import { EMPLOYEE_INFO_URL } from '../../const';
 const Employees = ({ getEmployees, employees }) => {
   useEffect(() => {
     getEmployees();
-  }, [getEmployees]);
+  }, []);
 
   const { items } = employees;
 
@@ -43,7 +43,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getEmployees: () => dispatch(getEmployees),
+  getEmployees: () => dispatch(getEmployees()),
 });
 
 export default connect(
