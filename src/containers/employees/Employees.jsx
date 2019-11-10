@@ -8,7 +8,7 @@ import { EMPLOYEE_INFO_URL } from '../../const';
 const Employees = ({ getEmployees, employees }) => {
   useEffect(() => {
     getEmployees();
-  }, [getEmployees]);
+  }, []);
 
   const { items } = employees;
 
