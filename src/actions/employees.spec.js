@@ -31,7 +31,8 @@ import {
   createCommentStart,
   createCommentSuccess,
   createCommentFailure,
-  getEmployees, getEmployeeById,
+  getEmployees,
+  getEmployeeById,
 } from './employees';
 
 const middlewares = [thunk];
@@ -191,10 +192,12 @@ describe('Employees actions', () => {
     it('getEmployeeById with success (first visit)', () => {
       const mockAxios = new MockAdapter(api);
       const id = Math.floor(Math.random() * 10);
-      const data = { success: true, data: {id} };
+      const data = { success: true, data: { id } };
 
       mockAxios.onGet(`${BASE_URL}${EMPLOYEE_INFO_URL}/${id}`).reply(200, data);
-      mockAxios.onGet(`${BASE_URL}${ALL_EMPLOYEES_URL}`).reply(200, { success: true, data: [1, 2, 3] });
+      mockAxios
+        .onGet(`${BASE_URL}${ALL_EMPLOYEES_URL}`)
+        .reply(200, { success: true, data: [1, 2, 3] });
 
       const expectedActions = [
         {
@@ -209,7 +212,7 @@ describe('Employees actions', () => {
         },
         {
           type: FETCH_EMPLOYEE_INFO_SUCCESS,
-          payload: {id},
+          payload: { id },
         },
       ];
 
@@ -223,10 +226,12 @@ describe('Employees actions', () => {
     it('getEmployeeById with failure on employees request (first visit)', () => {
       const mockAxios = new MockAdapter(api);
       const id = Math.floor(Math.random() * 10);
-      const data = { success: true, data: {id} };
+      const data = { success: true, data: { id } };
 
       mockAxios.onGet(`${BASE_URL}${EMPLOYEE_INFO_URL}/${id}`).reply(200, data);
-      mockAxios.onGet(`${BASE_URL}${ALL_EMPLOYEES_URL}`).reply(200, { success: false, message: ERROR_MESSAGE });
+      mockAxios
+        .onGet(`${BASE_URL}${ALL_EMPLOYEES_URL}`)
+        .reply(200, { success: false, message: ERROR_MESSAGE });
 
       const expectedActions = [
         {
@@ -248,7 +253,7 @@ describe('Employees actions', () => {
     it('getEmployeeById with failure on employees request - 500 error (first visit)', () => {
       const mockAxios = new MockAdapter(api);
       const id = Math.floor(Math.random() * 10);
-      const data = { success: true, data: {id} };
+      const data = { success: true, data: { id } };
 
       mockAxios.onGet(`${BASE_URL}${EMPLOYEE_INFO_URL}/${id}`).reply(200, data);
       mockAxios.onGet(`${BASE_URL}${ALL_EMPLOYEES_URL}`).reply(500);
@@ -273,7 +278,7 @@ describe('Employees actions', () => {
     it('getEmployeeById with success (not first visit)', () => {
       const mockAxios = new MockAdapter(api);
       const id = Math.floor(Math.random() * 10);
-      const data = { success: true, data: {id} };
+      const data = { success: true, data: { id } };
 
       mockAxios.onGet(`${BASE_URL}${EMPLOYEE_INFO_URL}/${id}`).reply(200, data);
 
@@ -283,7 +288,7 @@ describe('Employees actions', () => {
         },
         {
           type: FETCH_EMPLOYEE_INFO_SUCCESS,
-          payload: {id},
+          payload: { id },
         },
       ];
 
@@ -322,7 +327,9 @@ describe('Employees actions', () => {
       const mockAxios = new MockAdapter(api);
       const data = { success: false, message: ERROR_MESSAGE };
 
-      mockAxios.onPost(`${BASE_URL}${EMPLOYEE_CREATE_COMMENT_URL}`).reply(200, data);
+      mockAxios
+        .onPost(`${BASE_URL}${EMPLOYEE_CREATE_COMMENT_URL}`)
+        .reply(200, data);
 
       const expectedActions = [
         {
@@ -336,9 +343,18 @@ describe('Employees actions', () => {
 
       const store = mockStore({});
 
-      return store.dispatch(createComment(Math.floor(Math.random() * 10), 'label', 'text', 'phone')).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          createComment(
+            Math.floor(Math.random() * 10),
+            'label',
+            'text',
+            'phone'
+          )
+        )
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
     });
 
     it('createComment with failure - 500 error', () => {
@@ -358,9 +374,18 @@ describe('Employees actions', () => {
 
       const store = mockStore({});
 
-      return store.dispatch(createComment(Math.floor(Math.random() * 10), 'label', 'text', 'phone')).then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+      return store
+        .dispatch(
+          createComment(
+            Math.floor(Math.random() * 10),
+            'label',
+            'text',
+            'phone'
+          )
+        )
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
     });
   });
 });
