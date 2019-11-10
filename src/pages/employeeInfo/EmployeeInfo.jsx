@@ -118,7 +118,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getEmployees: () => dispatch(getEmployees),
+  getEmployees: () => dispatch(getEmployees()),
   getEmployeeById: (id, isFirstVisit) =>
     dispatch(getEmployeeById(id, isFirstVisit)),
   createComment: (id, title, text, phone) =>

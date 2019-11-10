@@ -12,10 +12,11 @@ import {
   FETCH_CREATE_COMMENT_FAILURE
 } from '../const';
 
-export const getEmployees = dispatch => {
+export const getEmployees = _ => dispatch => {
   dispatch(fetchEmployeesStart());
 
-  api
+
+  return api
     .getEmployees()
     .then(({ data }) => {
       const { success } = data;
@@ -34,7 +35,7 @@ export const getEmployeeById = (id, isFirstVisit) => dispatch => {
   if (isFirstVisit) {
     dispatch(fetchEmployeesStart());
 
-    api
+    return api
       .getEmployees()
       .then(async ({ data }) => {
         const { success } = data;
@@ -53,15 +54,14 @@ export const getEmployeeById = (id, isFirstVisit) => dispatch => {
   } else {
     dispatch(fetchEmployeeInfoStart());
 
-    getEmployeeByIdWithApi(id, dispatch);
+    return getEmployeeByIdWithApi(id, dispatch);
   }
 };
 
 export const createComment = (userId, title, text, phone) => dispatch => {
   dispatch(createCommentStart());
 
-  api
-
+  return api
     .createComment(userId, title, text, phone)
     .then(({ data }) => {
       const { success } = data;
@@ -118,7 +118,7 @@ export const createCommentFailure = err => ({
 });
 
 export const getEmployeeByIdWithApi = (id, dispatch) => {
-  api
+  return api
     .getEmployeeById(id)
     .then(({ data }) => {
       const { success } = data;
