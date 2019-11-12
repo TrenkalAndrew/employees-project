@@ -1,6 +1,6 @@
-import api from '../api';
 import {
-  ERROR_MESSAGE,
+  GET_EMPLOYEES,
+  GET_EMPLOYEE_BY_ID,
   FETCH_EMPLOYEES_START,
   FETCH_EMPLOYEES_SUCCESS,
   FETCH_EMPLOYEES_FAILURE,
@@ -9,71 +9,9 @@ import {
   FETCH_EMPLOYEE_INFO_FAILURE,
   FETCH_CREATE_COMMENT_START,
   FETCH_CREATE_COMMENT_SUCCESS,
-  FETCH_CREATE_COMMENT_FAILURE
+  FETCH_CREATE_COMMENT_FAILURE,
+  CREATE_COMMENT
 } from '../const';
-
-export const getEmployees = _ => dispatch => {
-  dispatch(fetchEmployeesStart());
-
-
-  return api
-    .getEmployees()
-    .then(({ data }) => {
-      const { success } = data;
-
-      if (success) {
-        dispatch(fetchEmployeesSuccess(data.data));
-      } else {
-        dispatch(fetchEmployeesFailure(data.message));
-      }
-    })
-    .catch(_ => dispatch(fetchEmployeesFailure(ERROR_MESSAGE)));
-};
-
-export const getEmployeeById = (id, isFirstVisit) => dispatch => {
-  //Если пользователь перезагрузил страницу, то необходимо загрузить достаточные данные для карусели, после чего подгрузить данные для карточки
-  if (isFirstVisit) {
-    dispatch(fetchEmployeesStart());
-
-    return api
-      .getEmployees()
-      .then(async ({ data }) => {
-        const { success } = data;
-
-        if (success) {
-          dispatch(fetchEmployeesSuccess(data.data));
-
-          dispatch(fetchEmployeeInfoStart());
-
-          getEmployeeByIdWithApi(id, dispatch);
-        } else {
-          dispatch(fetchEmployeesFailure(data.message));
-        }
-      })
-      .catch(_ => dispatch(fetchEmployeesFailure(ERROR_MESSAGE)));
-  } else {
-    dispatch(fetchEmployeeInfoStart());
-
-    return getEmployeeByIdWithApi(id, dispatch);
-  }
-};
-
-export const createComment = (userId, title, text, phone) => dispatch => {
-  dispatch(createCommentStart());
-
-  return api
-    .createComment(userId, title, text, phone)
-    .then(({ data }) => {
-      const { success } = data;
-
-      if (success) {
-        dispatch(createCommentSuccess({id: userId, title, text, phone, date: new Date().getTime()}));
-      } else {
-        dispatch(createCommentFailure(data.message));
-      }
-    })
-    .catch(_ => dispatch(createCommentFailure(ERROR_MESSAGE)));
-};
 
 export const fetchEmployeesStart = () => ({
   type: FETCH_EMPLOYEES_START,
@@ -117,17 +55,24 @@ export const createCommentFailure = err => ({
   payload: err,
 });
 
-export const getEmployeeByIdWithApi = (id, dispatch) => {
-  return api
-    .getEmployeeById(id)
-    .then(({ data }) => {
-      const { success } = data;
+export const getEmployees = () => ({
+  type: GET_EMPLOYEES,
+});
 
-      if (success) {
-        dispatch(fetchEmployeeInfoSuccess(data.data));
-      } else {
-        dispatch(fetchEmployeeInfoFailure(data.message));
-      }
-    })
-    .catch(fetchEmployeeInfoFailure(ERROR_MESSAGE));
-};
+export const getEmployeeById = (id, isFirstVisit) => ({
+  type: GET_EMPLOYEE_BY_ID,
+  payload: {
+    id,
+    isFirstVisit
+  }
+})
+
+export const createComment = (userId, title, text, phone) => ({
+  type: CREATE_COMMENT,
+  payload: {
+    userId,
+    title,
+    text,
+    phone
+  }
+})
