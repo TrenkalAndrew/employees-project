@@ -7,6 +7,10 @@ export const ERROR_MESSAGE =
   'Something was going wrong! Please, try again later...';
 
 //actions and reducers
+export const GET_EMPLOYEES = 'GET_EMPLOYEES';
+export const GET_EMPLOYEE_BY_ID = 'GET_EMPLOYEE_BY_ID';
+export const CREATE_COMMENT = 'CREATE_COMMENT';
+
 export const FETCH_EMPLOYEES_START = 'FETCH_EMPLOYEES_START';
 export const FETCH_EMPLOYEES_SUCCESS = 'FETCH_EMPLOYEES_SUCCESS';
 export const FETCH_EMPLOYEES_FAILURE = 'FETCH_EMPLOYEES_FAILURE';
