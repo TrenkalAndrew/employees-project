@@ -16,39 +16,68 @@ const initialState = {
   items: [],
 };
 
-export const employees = (state = initialState, { type, payload }) => {
+export const employees = (state = initialState, {
+  type,
+  payload
+}) => {
   switch (type) {
     case FETCH_EMPLOYEES_START:
-      return { ...state, loading: true };
+      return {
+        ...state, loading: true
+      };
     case FETCH_EMPLOYEES_SUCCESS:
-      return { loading: false, error: false, items: payload };
+      return {
+        loading: false, error: false, items: payload
+      };
     case FETCH_EMPLOYEES_FAILURE:
-      return { ...state, loading: false, error: true };
+      return {
+        ...state, loading: false, error: payload
+      };
     case FETCH_EMPLOYEE_INFO_START:
-      return { ...state, loading: true };
+      return {
+        ...state, loading: true
+      };
     case FETCH_EMPLOYEE_INFO_SUCCESS:
       const employeeIndex = state.items.findIndex(
-        ({ id }) => id === Number(payload.id)
+        ({
+          id
+        }) => id === Number(payload.id)
       );
       const newItems = [...state.items];
       newItems[employeeIndex] = payload;
 
-      return { loading: false, error: false, items: newItems };
+      return {
+        loading: false, error: false, items: newItems
+      };
     case FETCH_EMPLOYEE_INFO_FAILURE:
-      return { ...state, loading: false, error: true };
+      return {
+        ...state, loading: false, error: true
+      };
     case FETCH_CREATE_COMMENT_START:
-      return { ...state, loading: true };
+      return {
+        ...state, loading: true
+      };
     case FETCH_CREATE_COMMENT_SUCCESS:
-      const newState = {...state};
+      const newState = {
+        ...state
+      };
       const index = state.items.findIndex(
-        ({ id }) => id === Number(payload.id)
+        ({
+          id
+        }) => id === Number(payload.id)
       );
-      console.warn(newState.items[index], index, payload.id);
-      newState.items[index].comments.push({title: payload.title, text: payload.text, phone: payload.phone, date: payload.date});
+      newState.items[index].comments.push({
+        title: payload.title,
+        text: payload.text,
+        phone: payload.phone,
+        date: payload.date
+      });
 
       return newState;
     case FETCH_CREATE_COMMENT_FAILURE:
-      return { ...state, loading: false, error: true };
+      return {
+        ...state, loading: false, error: true
+      };
     default:
       return state;
   }
